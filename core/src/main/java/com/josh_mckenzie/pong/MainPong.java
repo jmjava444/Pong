@@ -20,8 +20,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/**
+ * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
+ */
 public class MainPong extends ApplicationAdapter {
+
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
     private BitmapFontLoader bitmapFontLoader;
@@ -43,10 +46,14 @@ public class MainPong extends ApplicationAdapter {
     private Rectangle ballBBox;
 
     private Texture controlsLabel;
+    private Label pressAnyKeyLabel;
+    private LabelStyle squareFontStyle;
 
     private Sound beepSound;
     private Sound boopSound;
     private Sound scoreSound;
+
+    private Boolean gameStarted;
 
 //    private Texture testSquareTex;
 //    private Sprite testSquare;
@@ -62,12 +69,20 @@ public class MainPong extends ApplicationAdapter {
 
     @Override
     public void create() {
+        gameStarted = false;
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport.apply();
         rectangle1Tex = new Texture("rectangle.png");
         rectangle2Tex = new Texture("rectangle.png");
         ballTex = new Texture("ball.png");
         controlsLabel = new Texture("Controls.png");
+        squareFontStyle = new LabelStyle(new BitmapFont(Gdx.files.internal("square-font.fnt")),
+            Color.WHITE);
+        pressAnyKeyLabel = new Label("Press any key to start!", squareFontStyle);
+        pressAnyKeyLabel.setPosition(Gdx.graphics.getWidth() / 2 - pressAnyKeyLabel.getWidth() / 2,
+            Gdx.graphics.getHeight() / 2 - 100);
+
         float spaceFromEdgeY = 40f;
 
         beepSound = Gdx.audio.newSound(Gdx.files.internal("beep.wav"));
@@ -78,41 +93,41 @@ public class MainPong extends ApplicationAdapter {
         p2Score = 0;
 
         rectangle1 = new Sprite(rectangle1Tex);
-        rectangle1.setBounds(Gdx.graphics.getWidth() / 2 - rectangle1Tex.getWidth() / 2, spaceFromEdgeY,
+        rectangle1.setBounds(Gdx.graphics.getWidth() / 2 - rectangle1Tex.getWidth() / 2,
+            spaceFromEdgeY,
             rectangle1Tex.getWidth(), rectangle1Tex.getHeight());
         rectangle1BBox = new Rectangle();
 
-        rectangle1ScoreLabel = new Label(p1Score.toString(),
-            new LabelStyle(
-                new BitmapFont(
-                new InternalFileHandleResolver().resolve("square-font.fnt")),
-                Color.WHITE));
+        rectangle1ScoreLabel = new Label(p1Score.toString(), squareFontStyle);
         rectangle1ScoreLabel.setFontScale(1f);
         rectangle1ScoreLabel.setPosition(Gdx.graphics.getWidth() - spaceFromEdgeY, 5);
         rectangle1ScoreLabel.setAlignment(Align.right);
 
         rectangle2 = new Sprite(rectangle2Tex);
         rectangle2.setBounds(Gdx.graphics.getWidth() / 2 - rectangle2Tex.getWidth() / 2,
-            viewport.getWorldHeight() - spaceFromEdgeY - rectangle2.getHeight(), rectangle2Tex.getWidth(),
+            viewport.getWorldHeight() - spaceFromEdgeY - rectangle2.getHeight(),
+            rectangle2Tex.getWidth(),
             rectangle2Tex.getHeight());
         rectangle2BBox = new Rectangle();
 
-        rectangle2ScoreLabel = new Label(p2Score.toString(),
-            new LabelStyle(
-                new BitmapFont(
-                    new InternalFileHandleResolver().resolve("square-font.fnt")),
-                Color.WHITE));
+        rectangle2ScoreLabel = new Label(p2Score.toString(), squareFontStyle);
         rectangle2ScoreLabel.setFontScale(1f);
-        rectangle2ScoreLabel.setPosition(Gdx.graphics.getWidth() - spaceFromEdgeY, Gdx.graphics.getHeight() - 37);
+        rectangle2ScoreLabel.setPosition(Gdx.graphics.getWidth() - spaceFromEdgeY,
+            Gdx.graphics.getHeight() - 37);
         rectangle2ScoreLabel.setAlignment(Align.right);
 
         ball = new Sprite(ballTex);
         ballBBox = new Rectangle();
-        resetBall();
+        placeBallInCenter();
 
 //        testSquareTex = new Texture("test-square.png");
 //        testSquare = new Sprite(testSquareTex);
 //        testSquare.setBounds(0,0,testSquareTex.getWidth(), testSquareTex.getHeight());
+    }
+
+    private void placeBallInCenter() {
+        ball.setBounds(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2,
+            ballTex.getWidth(), ballTex.getHeight());
     }
 
     @Override
@@ -126,19 +141,26 @@ public class MainPong extends ApplicationAdapter {
         float rectSpeed = 300f;
         float delta = Gdx.graphics.getDeltaTime();
 
+        if(!gameStarted) {
+            if(Gdx.input.isKeyPressed(Keys.ANY_KEY)) {
+                resetBall();
+                gameStarted = true;
+            }
+        }
+
         // rectangle 1
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             rectangle1.translateX(rectSpeed * delta);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             rectangle1.translateX(-rectSpeed * delta);
         }
 
         // rectangle 2
-        if(Gdx.input.isKeyPressed(Keys.D)) {
+        if (Gdx.input.isKeyPressed(Keys.D)) {
             rectangle2.translateX(rectSpeed * delta);
         }
-        if(Gdx.input.isKeyPressed(Keys.A)) {
+        if (Gdx.input.isKeyPressed(Keys.A)) {
             rectangle2.translateX(-rectSpeed * delta);
         }
     }
@@ -157,7 +179,7 @@ public class MainPong extends ApplicationAdapter {
             worldWidth - rectangle2.getWidth()));
 
         // ball
-        if(ball.getX() >= worldWidth - ball.getWidth() || ball.getX() <= 0f) {
+        if (ball.getX() >= worldWidth - ball.getWidth() || ball.getX() <= 0f) {
             // This prevents the dot from getting trapped in the gutter on the x axis
             ball.translateX(ballSpeedX <= 0f ? gbuf : -gbuf);
             // bounce (reverse direction)
@@ -174,8 +196,10 @@ public class MainPong extends ApplicationAdapter {
             resetBall();
         }
 
-        rectangle1BBox.set(rectangle1.getX(), rectangle1.getY(), rectangle1.getWidth(), rectangle1.getHeight());
-        rectangle2BBox.set(rectangle2.getX(), rectangle2.getY(), rectangle2.getWidth(), rectangle2.getHeight());
+        rectangle1BBox.set(rectangle1.getX(), rectangle1.getY(), rectangle1.getWidth(),
+            rectangle1.getHeight());
+        rectangle2BBox.set(rectangle2.getX(), rectangle2.getY(), rectangle2.getWidth(),
+            rectangle2.getHeight());
         ballBBox.set(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
 
         if (ballBBox.overlaps(rectangle1BBox)) {
@@ -206,14 +230,16 @@ public class MainPong extends ApplicationAdapter {
         rectangle1ScoreLabel.draw(spriteBatch, 1f);
         rectangle2ScoreLabel.draw(spriteBatch, 1f);
 
+        if(!gameStarted)
+            pressAnyKeyLabel.draw(spriteBatch, 1f);
+
 //        testSquare.draw(spriteBatch);
 
         spriteBatch.end();
     }
 
     private void resetBall() {
-        ball.setBounds(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2,
-            ballTex.getWidth(), ballTex.getHeight());
+        placeBallInCenter();
         randNegative = MathUtils.randomBoolean() ? 1 : -1;
         ballSpeedX = MathUtils.random(ballSpeedXMin, ballSpeedXMax) * randNegative;
         ballSpeedY = MathUtils.random(ballSpeedYMin, ballSpeedYMax) * randNegative;
@@ -237,5 +263,12 @@ public class MainPong extends ApplicationAdapter {
     @Override
     public void dispose() {
         spriteBatch.dispose();
+        rectangle1Tex.dispose();
+        rectangle2Tex.dispose();
+        ballTex.dispose();
+        controlsLabel.dispose();
+        beepSound.dispose();
+        boopSound.dispose();
+        scoreSound.dispose();
     }
 }

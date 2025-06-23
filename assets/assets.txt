@@ -7,10 +7,10 @@ controls.png
 drop.mp3
 drop.png
 icon-pong.svg
-icon-pong_Layer 1_128.png
-icon-pong_Layer 1_16.png
-icon-pong_Layer 1_32.png
-icon-pong_Layer 1_64.png
+icon-pong_Layer1_128.png
+icon-pong_Layer1_16.png
+icon-pong_Layer1_32.png
+icon-pong_Layer1_64.png
 libgdx.png
 music.mp3
 rectangle.png
