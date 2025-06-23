@@ -73,12 +73,6 @@ public class MainPong extends ApplicationAdapter {
         beepSound = Gdx.audio.newSound(Gdx.files.internal("beep.wav"));
         boopSound = Gdx.audio.newSound(Gdx.files.internal("boop.wav"));
         scoreSound = Gdx.audio.newSound(Gdx.files.internal("score-sound.wav"));
-//        beepSound.setVolume(0.5f);
-//        boopSound.setVolume(0.5f);
-//        scoreSound.setVolume(0.5f);
-//        beepSound.setLooping(false);
-//        boopSound.setLooping(false);
-//        scoreSound.setLooping(false);
 
         p1Score = 0;
         p2Score = 0;
@@ -172,11 +166,11 @@ public class MainPong extends ApplicationAdapter {
         }
         if (ball.getY() >= worldHeight - ball.getHeight()) { // player 1 (bottom) scores on top
             rectangle1ScoreLabel.setText(++p1Score);
-            scoreSound.play();
+            scoreSound.play(0.5f);
             resetBall();
         } else if (ball.getY() <= 0f) { //player 2 (top) scores on bottom
             rectangle2ScoreLabel.setText(++p2Score);
-            scoreSound.play();
+            scoreSound.play(0.5f);
             resetBall();
         }
 
@@ -184,7 +178,12 @@ public class MainPong extends ApplicationAdapter {
         rectangle2BBox.set(rectangle2.getX(), rectangle2.getY(), rectangle2.getWidth(), rectangle2.getHeight());
         ballBBox.set(ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight());
 
-        if(ballBBox.overlaps(rectangle1BBox) || ballBBox.overlaps(rectangle2BBox)) {
+        if (ballBBox.overlaps(rectangle1BBox)) {
+            ball.setY(rectangle1.getY() + rectangle1.getHeight());
+            ballSpeedY *= -1.10f;
+            beepSound.play();
+        } else if (ballBBox.overlaps(rectangle2BBox)) {
+            ball.setY(rectangle2.getY() - ball.getHeight());
             ballSpeedY *= -1.10f;
             beepSound.play();
         }
