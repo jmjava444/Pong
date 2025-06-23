@@ -1,0 +1,30 @@
+background.png
+ball.png
+beep.wav
+boop.wav
+bucket.png
+controls.png
+drop.mp3
+drop.png
+icon-pong.svg
+icon-pong_Layer 1_128.png
+icon-pong_Layer 1_16.png
+icon-pong_Layer 1_32.png
+icon-pong_Layer 1_64.png
+libgdx.png
+music.mp3
+rectangle.png
+rectangle.svg
+score-sound.wav
+square-font.fnt
+square-font.ttf
+square-font_0.png
+test-square.png
+test-square.svg
+ui/font-list.fnt
+ui/font-subtitle.fnt
+ui/font-window.fnt
+ui/font.fnt
+ui/uiskin.atlas
+ui/uiskin.json
+ui/uiskin.png
