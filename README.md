@@ -1,36 +1,21 @@
 # Pong
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+![](http://josh-mckenzie.com/wp-content/uploads/2025/06/icon-pong_Layer1_128.png)
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+## The classic computerized table tennis game!
 
-## Platforms
+Just for the sake of building something fun, I recreated Pong, the universal classic video game. It was made using the LibGDX libraries, and that helped spin up the game really fast. Right now the game has a nice variable frame rate depending on the device you are using and it will VSync to your monitor. There are instructions on screen to see immediately how to play. The scores will update correctly, and the paddles won't drift off screen, but there is not currently a winning score. Just unlimited **PONG**! Being my first time using LibGDX's framework, I wanted to make something really simple so I could get the hang of using the libraries and getting straight to deployment.
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
-- `html`: Web platform using GWT and WebGL. Supports only Java projects.
+## Gameplay
 
-## Gradle
+Right now this game is designed for two players sitting at the same computer. Use the **A** and **D** keys to control the paddle up top, and **←** and **→** arrow keys to control the paddle on the bottom. 
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+## How to Run
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `html:dist`: compiles GWT sources. The compiled application can be found at `html/build/dist`: you can use any HTTP server to deploy it.
-- `html:superDev`: compiles GWT sources and runs the application in SuperDev mode. It will be available at [localhost:8080/html](http://localhost:8080/html). Use only during development.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+In the releases section you'll find a .zip folder for most desktop OSes. Download the .zip, extract it wherever you want to keep it on your computer and then run the executable file (whichever one for your respective OS).
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+## Screenshots
+
+![](http://josh-mckenzie.com/wp-content/uploads/2025/06/Screenshot-2025-06-23-174408.png)
+![](http://josh-mckenzie.com/wp-content/uploads/2025/06/Screenshot-2025-06-23-1752061.png)
+![](http://josh-mckenzie.com/wp-content/uploads/2025/06/Screenshot-2025-06-23-1752211.png)
