@@ -7,6 +7,8 @@ controls.png
 drop.mp3
 drop.png
 icon-pong.svg
+icon-pong128x720-banner.png
+icon-pong512.png
 icon-pong_Layer1_128.png
 icon-pong_Layer1_16.png
 icon-pong_Layer1_32.png

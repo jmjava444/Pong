@@ -31,8 +31,7 @@ public class Lwjgl3Launcher {
         configuration.setWindowedMode(400, 800);
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         //// They can also be loaded from the root of assets/ .
-        configuration.setWindowIcon("icon-pong_Layer1_16.png", "icon-pong_Layer1_32.png",
-            "icon-pong_Layer1_64.png", "icon-pong_Layer1_128.png");
+        configuration.setWindowIcon("icon-pong_Layer1_16.png", "icon-pong_Layer1_32.png", "icon-pong_Layer1_64.png", "icon-pong_Layer1_128.png");
         return configuration;
     }
 }

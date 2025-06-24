@@ -4,8 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,7 +25,6 @@ public class MainPong extends ApplicationAdapter {
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
-    private BitmapFontLoader bitmapFontLoader;
 
     private Texture rectangle1Tex;
     private Sprite rectangle1;
@@ -47,7 +44,6 @@ public class MainPong extends ApplicationAdapter {
 
     private Texture controlsLabel;
     private Label pressAnyKeyLabel;
-    private LabelStyle squareFontStyle;
 
     private Sound beepSound;
     private Sound boopSound;
@@ -55,10 +51,7 @@ public class MainPong extends ApplicationAdapter {
 
     private Boolean gameStarted;
 
-//    private Texture testSquareTex;
-//    private Sprite testSquare;
-
-    private float gbuf = 4f; // gutterball buffer value for collisions
+    private final float gutterBuffer = 4f; // gutter-ball buffer value for collisions
     private float ballSpeedXMin = 50f;
     private float ballSpeedXMax = 150f;
     private float ballSpeedYMin = 100f;
@@ -77,11 +70,12 @@ public class MainPong extends ApplicationAdapter {
         rectangle2Tex = new Texture("rectangle.png");
         ballTex = new Texture("ball.png");
         controlsLabel = new Texture("Controls.png");
-        squareFontStyle = new LabelStyle(new BitmapFont(Gdx.files.internal("square-font.fnt")),
+        LabelStyle squareFontStyle = new LabelStyle(
+            new BitmapFont(Gdx.files.internal("square-font.fnt")),
             Color.WHITE);
         pressAnyKeyLabel = new Label("Press any key to start!", squareFontStyle);
-        pressAnyKeyLabel.setPosition(Gdx.graphics.getWidth() / 2 - pressAnyKeyLabel.getWidth() / 2,
-            Gdx.graphics.getHeight() / 2 - 100);
+        pressAnyKeyLabel.setPosition(Gdx.graphics.getWidth() / 2f - pressAnyKeyLabel.getWidth() / 2f,
+            Gdx.graphics.getHeight() / 2f - 100f);
 
         float spaceFromEdgeY = 40f;
 
@@ -93,7 +87,7 @@ public class MainPong extends ApplicationAdapter {
         p2Score = 0;
 
         rectangle1 = new Sprite(rectangle1Tex);
-        rectangle1.setBounds(Gdx.graphics.getWidth() / 2 - rectangle1Tex.getWidth() / 2,
+        rectangle1.setBounds(Gdx.graphics.getWidth() / 2f - rectangle1Tex.getWidth() / 2f,
             spaceFromEdgeY,
             rectangle1Tex.getWidth(), rectangle1Tex.getHeight());
         rectangle1BBox = new Rectangle();
@@ -104,7 +98,7 @@ public class MainPong extends ApplicationAdapter {
         rectangle1ScoreLabel.setAlignment(Align.right);
 
         rectangle2 = new Sprite(rectangle2Tex);
-        rectangle2.setBounds(Gdx.graphics.getWidth() / 2 - rectangle2Tex.getWidth() / 2,
+        rectangle2.setBounds(Gdx.graphics.getWidth() / 2f - rectangle2Tex.getWidth() / 2f,
             viewport.getWorldHeight() - spaceFromEdgeY - rectangle2.getHeight(),
             rectangle2Tex.getWidth(),
             rectangle2Tex.getHeight());
@@ -120,13 +114,10 @@ public class MainPong extends ApplicationAdapter {
         ballBBox = new Rectangle();
         placeBallInCenter();
 
-//        testSquareTex = new Texture("test-square.png");
-//        testSquare = new Sprite(testSquareTex);
-//        testSquare.setBounds(0,0,testSquareTex.getWidth(), testSquareTex.getHeight());
     }
 
     private void placeBallInCenter() {
-        ball.setBounds(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2,
+        ball.setBounds(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f,
             ballTex.getWidth(), ballTex.getHeight());
     }
 
@@ -180,8 +171,8 @@ public class MainPong extends ApplicationAdapter {
 
         // ball
         if (ball.getX() >= worldWidth - ball.getWidth() || ball.getX() <= 0f) {
-            // This prevents the dot from getting trapped in the gutter on the x axis
-            ball.translateX(ballSpeedX <= 0f ? gbuf : -gbuf);
+            // This prevents the dot from getting trapped in the gutter on the x-axis
+            ball.translateX(ballSpeedX <= 0f ? gutterBuffer : -gutterBuffer);
             // bounce (reverse direction)
             ballSpeedX *= -1f * MathUtils.random(0.90f, 1.15f);
             boopSound.play();
