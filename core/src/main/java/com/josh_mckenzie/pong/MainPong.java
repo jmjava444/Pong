@@ -69,7 +69,7 @@ public class MainPong extends ApplicationAdapter {
         rectangle1Tex = new Texture("rectangle.png");
         rectangle2Tex = new Texture("rectangle.png");
         ballTex = new Texture("ball.png");
-        controlsLabel = new Texture("Controls.png");
+        controlsLabel = new Texture("controls.png");
         LabelStyle squareFontStyle = new LabelStyle(
             new BitmapFont(Gdx.files.internal("square-font.fnt")),
             Color.WHITE);
